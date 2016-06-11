@@ -151,7 +151,7 @@ web_client.sites.get_site(GROUP_NAME, SITE_NAME)
 ```
 
 <a id="delete-site"></a>
-## Delete a website
+### Delete a website
 
 ```python
 web_client.sites.delete_site(GROUP_NAME, SITE_NAME)
