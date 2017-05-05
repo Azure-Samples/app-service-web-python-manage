@@ -95,18 +95,18 @@ The sample then sets up a resource group in which it will create the website.
 resource_group_params = {'location':'westus'}
 ```
 
-<a id="create-server-farm"></a>
-### Create a server farm
+<a id="create-service-plan"></a>
+### Create an App Service plan
 
-Create a server farm to host your website.
+Create a service plan to host your webapp.
 
 ```python
 from azure.mgmt.web.models import AppServicePlan, SkuDescription, Site
 
-server_farm_async_operation = web_client.server_farms.create_or_update_server_farm(
+service_plan_async_operation = web_client.app_service_plans.create_or_update(
     GROUP_NAME,
     SERVER_FARM_NAME,
-    ServerFarmWithRichSku(
+    AppServicePlan(
         location=WEST_US,
         sku=SkuDescription(
             name='S1',
@@ -115,8 +115,8 @@ server_farm_async_operation = web_client.server_farms.create_or_update_server_fa
         )
     )
 )
-server_farm = server_farm_async_operation.result()
-print_item(server_farm)
+service_plan = service_plan_async_operation.result()
+print_item(service_plan)
 ```
 
 <a id="create-website"></a>
@@ -130,7 +130,7 @@ site_async_operation = web_client.sites.create_or_update_site(
     SITE_NAME,
     Site(
         location=WEST_US,
-        server_farm_id=server_farm.id
+        server_farm_id=service_plan.id
     )
 )
 site = site_async_operation.result()
@@ -141,7 +141,7 @@ print_item(site)
 ### List websites in the resourcegroup
 
 ```python
-for site in web_client.sites.get_sites(GROUP_NAME).value:
+for site in web_client.web_apps.list_by_resource_group(GROUP_NAME):
     print_item(site)
 ```
 
@@ -149,14 +149,14 @@ for site in web_client.sites.get_sites(GROUP_NAME).value:
 ### Get details for the given website
 
 ```python
-web_client.sites.get_site(GROUP_NAME, SITE_NAME)
+web_client.web_apps.get(GROUP_NAME, SITE_NAME)
 ```
 
 <a id="delete-site"></a>
 ### Delete a website
 
 ```python
-web_client.sites.delete_site(GROUP_NAME, SITE_NAME)
+web_client.web_apps.delete(GROUP_NAME, SITE_NAME)
 ```
 
 At this point, the sample also deletes the resource group that it created.
