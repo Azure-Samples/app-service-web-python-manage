@@ -36,7 +36,8 @@ This sample demonstrates how to manage your Azure websites using a Python client
     git clone https://github.com:Azure-Samples/app-service-web-python-manage.git
     ```
 
-1. Install the dependencies using pip.
+1. Install the dependencies using pip. This step requires `pip` version >=6.0 and `setuptools` version >=8.0.
+    To check that you have the required versions, use `pip --version` and `easy_install --version`.
 
     ```
     cd app-service-web-python-manage
