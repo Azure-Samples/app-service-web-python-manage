@@ -118,7 +118,7 @@ def print_item(group):
     print("\tId: {}".format(group.id))
     print("\tLocation: {}".format(group.location))
     print("\tTags: {}".format(group.tags))
-    if hasattr(group, 'status'): # ServerFarmWithRichSku
+    if hasattr(group, 'status'):
         print("\tStatus: {}".format(group.status))
     if hasattr(group, 'state'): # Site
         print("\tStatus: {}".format(group.state))
