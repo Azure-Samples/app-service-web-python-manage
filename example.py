@@ -46,11 +46,11 @@ def run_example():
     print_item(resource_client.resource_groups.create_or_update(GROUP_NAME, resource_group_params))
 
     #
-    # Create a Server Farm for your WebApp
+    # Create an App Service plan for your WebApp
     #
-    print('Create a Server Farm for your WebApp')
+    print('Create an App Service plan for your WebApp')
 
-    server_farm_async_operation = web_client.app_service_plans.create_or_update(
+    service_plan_async_operation = web_client.app_service_plans.create_or_update(
         GROUP_NAME,
         SERVER_FARM_NAME,
         AppServicePlan(
@@ -62,19 +62,19 @@ def run_example():
             )
         )
     )
-    server_farm = server_farm_async_operation.result()
-    print_item(server_farm)
+    service_plan = service_plan_async_operation.result()
+    print_item(service_plan)
 
     #
-    # Create a Site to be hosted in the Server Farm
+    # Create a Site to be hosted on the App Service plan
     #
-    print('Create a Site to be hosted in the Server Farm')
+    print('Create a Site to be hosted on the App Service plan')
     site_async_operation = web_client.web_apps.create_or_update(
         GROUP_NAME,
         SITE_NAME,
         Site(
             location=WEST_US,
-            server_farm_id=server_farm.id
+            server_farm_id=service_plan.id
         )
     )
     site = site_async_operation.result()
