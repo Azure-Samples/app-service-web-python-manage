@@ -1,9 +1,10 @@
 import os
+
 from haikunator import Haikunator
 from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.resource import ResourceManagementClient
 from azure.mgmt.web import WebSiteManagementClient
-from azure.mgmt.web.models import ServerFarmWithRichSku, SkuDescription, Site
+from azure.mgmt.web.models import AppServicePlan, SkuDescription, Site
 
 WEST_US = 'westus'
 GROUP_NAME = 'azure-sample-group'
@@ -22,9 +23,8 @@ def run_example():
     #
     # Create the Resource Manager Client with an Application (service principal) token provider
     #
-    subscription_id = os.environ.get(
-        'AZURE_SUBSCRIPTION_ID',
-        '11111111-1111-1111-1111-111111111111') # your Azure Subscription Id
+    subscription_id = os.environ['AZURE_SUBSCRIPTION_ID']
+
     credentials = ServicePrincipalCredentials(
         client_id=os.environ['AZURE_CLIENT_ID'],
         secret=os.environ['AZURE_CLIENT_SECRET'],
@@ -32,6 +32,9 @@ def run_example():
     )
     resource_client = ResourceManagementClient(credentials, subscription_id)
     web_client = WebSiteManagementClient(credentials, subscription_id)
+
+    # Register for required namespace
+    resource_client.providers.register('Microsoft.Web')
 
     # Create Resource group
     print('Create Resource Group')
@@ -43,10 +46,10 @@ def run_example():
     #
     print('Create a Server Farm for your WebApp')
 
-    server_farm_async_operation = web_client.server_farms.create_or_update_server_farm(
+    server_farm_async_operation = web_client.app_service_plans.create_or_update(
         GROUP_NAME,
         SERVER_FARM_NAME,
-        ServerFarmWithRichSku(
+        AppServicePlan(
             location=WEST_US,
             sku=SkuDescription(
                 name='S1',
@@ -62,7 +65,7 @@ def run_example():
     # Create a Site to be hosted in the Server Farm
     #
     print('Create a Site to be hosted in the Server Farm')
-    site_async_operation = web_client.sites.create_or_update_site(
+    site_async_operation = web_client.web_apps.create_or_update(
         GROUP_NAME,
         SITE_NAME,
         Site(
@@ -77,14 +80,14 @@ def run_example():
     # List Sites by Resource Group
     #
     print('List Sites by Resource Group')
-    for site in web_client.sites.get_sites(GROUP_NAME).value:
+    for site in web_client.web_apps.list_by_resource_group(GROUP_NAME):
         print_item(site)
 
     #
     # Get a single Site
     #
     print('Get a single Site')
-    site = web_client.sites.get_site(GROUP_NAME, SITE_NAME)
+    site = web_client.web_apps.get(GROUP_NAME, SITE_NAME)
     print_item(site)
 
     print("Your site and server farm have been created. " \
@@ -95,7 +98,7 @@ def run_example():
     # Delete a Site
     #
     print('Deleting the Site')
-    web_client.sites.delete_site(GROUP_NAME, SITE_NAME)
+    web_client.web_apps.delete(GROUP_NAME, SITE_NAME)
 
     #
     # Delete the Resource Group
