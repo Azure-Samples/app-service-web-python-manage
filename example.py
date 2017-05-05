@@ -113,7 +113,7 @@ def run_example():
 
 
 def print_item(group):
-    """Print an instance."""
+    """Print some properties of an Azure model."""
     print("\tName: {}".format(group.name))
     print("\tId: {}".format(group.id))
     print("\tLocation: {}".format(group.location))
@@ -128,7 +128,7 @@ def print_item(group):
 
 
 def print_properties(props):
-    """Print a Site properties instance."""
+    """Print some properties of a Site."""
     if props and props.provisioning_state:
         print("\tProperties:")
         print("\t\tProvisioning State: {}".format(props.provisioning_state))
