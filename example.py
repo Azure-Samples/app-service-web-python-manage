@@ -21,6 +21,7 @@ GROUP_NAME = 'azure-sample-group'
 SERVER_FARM_NAME = 'sample-server-farm'
 SITE_NAME = Haikunator().haikunate()
 
+
 def run_example():
     """Web Site management example."""
     #
@@ -110,6 +111,7 @@ def run_example():
     delete_async_operation = resource_client.resource_groups.delete(GROUP_NAME)
     delete_async_operation.wait()
 
+
 def print_item(group):
     """Print an instance."""
     print("\tName: {}".format(group.name))
@@ -124,11 +126,13 @@ def print_item(group):
         print_properties(group.properties)
     print("\n\n")
 
+
 def print_properties(props):
     """Print a Site properties instance."""
     if props and props.provisioning_state:
         print("\tProperties:")
         print("\t\tProvisioning State: {}".format(props.provisioning_state))
+
 
 if __name__ == "__main__":
     run_example()
