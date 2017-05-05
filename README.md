@@ -48,7 +48,7 @@ This sample demonstrates how to manage your Azure websites using a Python client
     [PowerShell](https://azure.microsoft.com/documentation/articles/resource-group-authenticate-service-principal/)
     or [the portal](https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/).
 
-1. Set the following environment variables using the information from the service principle that you created.
+1. Set the following environment variables using the information from the service principal that you created.
 
     ```
     export AZURE_TENANT_ID={your tenant id}
