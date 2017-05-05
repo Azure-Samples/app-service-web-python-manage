@@ -48,7 +48,7 @@ This sample demonstrates how to manage your Azure websites using a Python client
     [PowerShell](https://azure.microsoft.com/documentation/articles/resource-group-authenticate-service-principal/)
     or [the portal](https://azure.microsoft.com/documentation/articles/resource-group-create-service-principal-portal/).
 
-1. Set the following environment variables using the information from the service principle that you created.
+1. Set the following environment variables using the information from the service principal that you created.
 
     ```
     export AZURE_TENANT_ID={your tenant id}
@@ -90,15 +90,18 @@ web_client = WebSiteManagementClient(credentials, subscription_id)
 ```
 
 The sample then sets up a resource group in which it will create the website.
+`print_item` is a helper function that will print some attributes of the
+`ResourceGroup` object returned by `create_or_update`.
 
 ```python
 resource_group_params = {'location':'westus'}
+print_item(resource_client.resource_groups.create_or_update(GROUP_NAME, resource_group_params))
 ```
 
 <a id="create-server-farm"></a>
 ### Create a server farm
 
-Create a server farm to host your website.
+The following creates a server farm to host your website.
 
 ```python
 from azure.mgmt.web.models import ServerFarmWithRichSku, SkuDescription
