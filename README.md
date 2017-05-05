@@ -90,15 +90,18 @@ web_client = WebSiteManagementClient(credentials, subscription_id)
 ```
 
 The sample then sets up a resource group in which it will create the website.
+`print_item` is a helper function that will print some attributes of the
+`ResourceGroup` object returned by `create_or_update`.
 
 ```python
 resource_group_params = {'location':'westus'}
+print_item(resource_client.resource_groups.create_or_update(GROUP_NAME, resource_group_params))
 ```
 
 <a id="create-server-farm"></a>
 ### Create a server farm
 
-Create a server farm to host your website.
+The following creates a server farm to host your website.
 
 ```python
 from azure.mgmt.web.models import ServerFarmWithRichSku, SkuDescription
