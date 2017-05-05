@@ -1,3 +1,13 @@
+"""Sample code demonstrating management of Azure web apps.
+
+This script expects that the following environment vars are set:
+
+AZURE_TENANT_ID: with your Azure Active Directory tenant id or domain
+AZURE_CLIENT_ID: with your Azure Active Directory Application Client ID
+AZURE_CLIENT_SECRET: with your Azure Active Directory Application Secret
+AZURE_SUBSCRIPTION_ID: with your Azure Subscription Id
+"""
+
 import os
 
 from haikunator import Haikunator
@@ -11,13 +21,6 @@ GROUP_NAME = 'azure-sample-group'
 SERVER_FARM_NAME = 'sample-server-farm'
 SITE_NAME = Haikunator().haikunate()
 
-# This script expects that the following environment vars are set:
-#
-# AZURE_TENANT_ID: with your Azure Active Directory tenant id or domain
-# AZURE_CLIENT_ID: with your Azure Active Directory Application Client ID
-# AZURE_CLIENT_SECRET: with your Azure Active Directory Application Secret
-# AZURE_SUBSCRIPTION_ID: with your Azure Subscription Id
-#
 def run_example():
     """Web Site management example."""
     #
