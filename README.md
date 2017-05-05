@@ -73,6 +73,11 @@ The sample creates, lists and updates a website.
 It starts by setting up a ResourceManagementClient and a WebSiteManagementClient object using your subscription and credentials.
 
 ```python
+import os
+from azure.common.credentials import ServicePrincipalCredentials
+from azure.mgmt.resource import ResourceManagementClient
+from azure.mgmt.web import WebSiteManagementClient
+
 subscription_id = os.environ['AZURE_SUBSCRIPTION_ID']
 
 credentials = ServicePrincipalCredentials(
@@ -96,7 +101,7 @@ resource_group_params = {'location':'westus'}
 Create a server farm to host your website.
 
 ```python
-from azure.mgmt.web.models import ServerFarmWithRichSku, SkuDescription
+from azure.mgmt.web.models import AppServicePlan, SkuDescription, Site
 
 server_farm_async_operation = web_client.server_farms.create_or_update_server_farm(
     GROUP_NAME,
