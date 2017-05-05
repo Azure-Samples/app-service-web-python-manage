@@ -73,14 +73,8 @@ The sample creates, lists and updates a website.
 It starts by setting up a ResourceManagementClient and a WebSiteManagementClient object using your subscription and credentials.
 
 ```python
-import os
-from azure.common.credentials import ServicePrincipalCredentials
-from azure.mgmt.resource import ResourceManagementClient
-from azure.mgmt.web import WebSiteManagementClient
+subscription_id = os.environ['AZURE_SUBSCRIPTION_ID']
 
-subscription_id = os.environ.get(
-    'AZURE_SUBSCRIPTION_ID',
-    '11111111-1111-1111-1111-111111111111') # your Azure Subscription Id
 credentials = ServicePrincipalCredentials(
     client_id=os.environ['AZURE_CLIENT_ID'],
     secret=os.environ['AZURE_CLIENT_SECRET'],
