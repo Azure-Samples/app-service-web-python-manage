@@ -36,7 +36,8 @@ This sample demonstrates how to manage your Azure websites using a Python client
     git clone https://github.com:Azure-Samples/app-service-web-python-manage.git
     ```
 
-1. Install the dependencies using pip.
+1. Install the dependencies using pip. This step requires `pip` version >=6.0 and `setuptools` version >=8.0.
+    To check that you have the required versions, use `pip --version` and `easy_install --version`.
 
     ```
     cd app-service-web-python-manage
@@ -77,9 +78,8 @@ from azure.common.credentials import ServicePrincipalCredentials
 from azure.mgmt.resource import ResourceManagementClient
 from azure.mgmt.web import WebSiteManagementClient
 
-subscription_id = os.environ.get(
-    'AZURE_SUBSCRIPTION_ID',
-    '11111111-1111-1111-1111-111111111111') # your Azure Subscription Id
+subscription_id = os.environ['AZURE_SUBSCRIPTION_ID']
+
 credentials = ServicePrincipalCredentials(
     client_id=os.environ['AZURE_CLIENT_ID'],
     secret=os.environ['AZURE_CLIENT_SECRET'],
@@ -98,18 +98,18 @@ resource_group_params = {'location':'westus'}
 print_item(resource_client.resource_groups.create_or_update(GROUP_NAME, resource_group_params))
 ```
 
-<a id="create-server-farm"></a>
-### Create a server farm
+<a id="create-service-plan"></a>
+### Create an App Service plan
 
-The following creates a server farm to host your website.
+Create a service plan to host your webapp.
 
 ```python
-from azure.mgmt.web.models import ServerFarmWithRichSku, SkuDescription
+from azure.mgmt.web.models import AppServicePlan, SkuDescription, Site
 
-server_farm_async_operation = web_client.server_farms.create_or_update_server_farm(
+service_plan_async_operation = web_client.app_service_plans.create_or_update(
     GROUP_NAME,
     SERVER_FARM_NAME,
-    ServerFarmWithRichSku(
+    AppServicePlan(
         location=WEST_US,
         sku=SkuDescription(
             name='S1',
@@ -118,8 +118,8 @@ server_farm_async_operation = web_client.server_farms.create_or_update_server_fa
         )
     )
 )
-server_farm = server_farm_async_operation.result()
-print_item(server_farm)
+service_plan = service_plan_async_operation.result()
+print_item(service_plan)
 ```
 
 <a id="create-website"></a>
@@ -133,7 +133,7 @@ site_async_operation = web_client.sites.create_or_update_site(
     SITE_NAME,
     Site(
         location=WEST_US,
-        server_farm_id=server_farm.id
+        server_farm_id=service_plan.id
     )
 )
 site = site_async_operation.result()
@@ -144,7 +144,7 @@ print_item(site)
 ### List websites in the resourcegroup
 
 ```python
-for site in web_client.sites.get_sites(GROUP_NAME).value:
+for site in web_client.web_apps.list_by_resource_group(GROUP_NAME):
     print_item(site)
 ```
 
@@ -152,14 +152,14 @@ for site in web_client.sites.get_sites(GROUP_NAME).value:
 ### Get details for the given website
 
 ```python
-web_client.sites.get_site(GROUP_NAME, SITE_NAME)
+web_client.web_apps.get(GROUP_NAME, SITE_NAME)
 ```
 
 <a id="delete-site"></a>
 ### Delete a website
 
 ```python
-web_client.sites.delete_site(GROUP_NAME, SITE_NAME)
+web_client.web_apps.delete(GROUP_NAME, SITE_NAME)
 ```
 
 At this point, the sample also deletes the resource group that it created.
