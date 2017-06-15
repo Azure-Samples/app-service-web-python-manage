@@ -128,7 +128,7 @@ print_item(service_plan)
 ```python
 from azure.mgmt.web.models import Site
 
-site_async_operation = web_client.sites.create_or_update_site(
+site_async_operation = web_client.web_apps.create_or_update(
     GROUP_NAME,
     SITE_NAME,
     Site(
