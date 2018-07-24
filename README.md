@@ -110,6 +110,7 @@ service_plan_async_operation = web_client.app_service_plans.create_or_update(
     GROUP_NAME,
     SERVER_FARM_NAME,
     AppServicePlan(
+        app_service_plan_name=SERVER_FARM_NAME,
         location=WEST_US,
         sku=SkuDescription(
             name='S1',
