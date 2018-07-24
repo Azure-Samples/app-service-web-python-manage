@@ -37,9 +37,6 @@ def run_example():
     resource_client = ResourceManagementClient(credentials, subscription_id)
     web_client = WebSiteManagementClient(credentials, subscription_id)
 
-    # Register for required namespace
-    resource_client.providers.register('Microsoft.Web')
-
     # Create Resource group
     print('Create Resource Group')
     resource_group_params = {'location':'westus'}
@@ -54,6 +51,7 @@ def run_example():
         GROUP_NAME,
         SERVER_FARM_NAME,
         AppServicePlan(
+            app_service_plan_name=SERVER_FARM_NAME,
             location=WEST_US,
             sku=SkuDescription(
                 name='S1',
