@@ -39,8 +39,9 @@ def run_example():
 
     # Create Resource group
     print('Create Resource Group')
-    resource_group_params = {'location':'westus'}
-    print_item(resource_client.resource_groups.create_or_update(GROUP_NAME, resource_group_params))
+    resource_group_params = {'location': 'westus'}
+    print_item(resource_client.resource_groups.create_or_update(
+        GROUP_NAME, resource_group_params))
 
     #
     # Create an App Service plan for your WebApp
@@ -92,8 +93,8 @@ def run_example():
     site = web_client.web_apps.get(GROUP_NAME, SITE_NAME)
     print_item(site)
 
-    print("Your site and server farm have been created. " \
-      "You can now go and visit at http://{}/".format(site.default_host_name))
+    print("Your site and server farm have been created. "
+          "You can now go and visit at http://{}/".format(site.default_host_name))
     input("Press enter to delete the site and server farm.")
 
     #
@@ -118,7 +119,7 @@ def print_item(group):
     print("\tTags: {}".format(group.tags))
     if hasattr(group, 'status'):
         print("\tStatus: {}".format(group.status))
-    if hasattr(group, 'state'): # Site
+    if hasattr(group, 'state'):  # Site
         print("\tStatus: {}".format(group.state))
     if hasattr(group, 'properties'):
         print_properties(group.properties)
